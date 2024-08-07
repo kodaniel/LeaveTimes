@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace LeaveTimes.Infrastructure;
 
@@ -40,10 +42,16 @@ public static class Setup
         TypeAdapterConfig.GlobalSettings.Scan(applicationAssembly);
 
         builder.Services.AddPersistance();
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddJsonOptions(cfg =>
+        {
+            cfg.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            cfg.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            cfg.JsonSerializerOptions.WriteIndented = true;
+            cfg.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
 
         builder.Services.AddScoped<ExceptionMiddleware>();
-        builder.Services.AddSingleton<ISerializerService, NewtonSoftSerializerService>();
+        builder.Services.AddSingleton<ISerializerService, JsonSerializerService>();
     }
 
     private static void AddPersistance(this IServiceCollection services)
@@ -65,10 +73,9 @@ public static class Setup
 
     private static void SeedDatabase(IApplicationBuilder app)
     {
-        using (var serviceScope = app.ApplicationServices.CreateScope())
-        {
-            var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-            SeedData.Initialize(context);
-        }
+        using var serviceScope = app.ApplicationServices.CreateScope();
+
+        var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+        SeedData.Initialize(context);
     }
 }
