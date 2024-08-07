@@ -1,6 +1,4 @@
-﻿using LeaveTimes.Domain.Interfaces;
-
-namespace LeaveTimes.Domain.Entities;
+﻿namespace LeaveTimes.Domain.Entities;
 
 public abstract class Entity : IEntity
 {

@@ -17,6 +17,10 @@ public class LeaveTime : Entity<Guid>, IAggregateRoot
 
     public bool IsApproved { get; private set; }
 
+    private LeaveTime()
+    {
+    }
+
     public static LeaveTime Create(string employeeName)
     {
         LeaveTime leaveTime = new();
@@ -42,7 +46,7 @@ public class LeaveTime : Entity<Guid>, IAggregateRoot
         EndDate = endDate;
     }
 
-    public void UpdateComment(string comment)
+    public void UpdateComment(string? comment)
     {
         Comment = comment;
     }

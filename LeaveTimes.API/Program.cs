@@ -7,6 +7,7 @@ using Serilog;
  * - Page-based or Cursor-based pagination
  * - Authentication and authorization
  * - Caching
+ * - UnitOfWork pattern
  */
 
 var logger = Log.Logger = new LoggerConfiguration()
