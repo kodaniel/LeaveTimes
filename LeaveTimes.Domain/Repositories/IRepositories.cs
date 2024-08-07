@@ -46,7 +46,7 @@ public interface IRepository<TEntity> : IRepository<TEntity, Guid>
 {
 }
 
-public interface IRepository<TEntity, in TKey> : IWriteRepository<TEntity, TKey>, IReadRepository<TEntity, TKey>, IDisposable
+public interface IRepository<TEntity, in TKey> : IWriteRepository<TEntity, TKey>, IReadRepository<TEntity, TKey>
     where TEntity : class, IAggregateRoot
     where TKey : IEquatable<TKey>
 {

@@ -2,8 +2,6 @@
 
 public interface IUnitOfWork : IDisposable
 {
-    ILeaveTimeRepository LeaveTimeRepository { get; }
-
     bool HasActiveTransaction { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

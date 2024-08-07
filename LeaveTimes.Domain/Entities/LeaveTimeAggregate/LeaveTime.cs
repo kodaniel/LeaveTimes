@@ -1,8 +1,11 @@
-﻿namespace LeaveTimes.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LeaveTimes.Domain.Entities;
 
 public class LeaveTime : Entity<Guid>, IAggregateRoot
 {
-    public string EmployeeName { get; private set; }
+    [MaxLength(100)]
+    public string EmployeeName { get; private set; } = default!;
 
     public DateTime StartDate { get; private set; }
 
@@ -14,10 +17,12 @@ public class LeaveTime : Entity<Guid>, IAggregateRoot
 
     public bool IsApproved { get; private set; }
 
-    public LeaveTime(string name)
+    public static LeaveTime Create(string employeeName)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(nameof(name));
-        EmployeeName = name;
+        LeaveTime leaveTime = new();
+        leaveTime.UpdateName(employeeName);
+
+        return leaveTime;
     }
 
     public void UpdateReason(Reason reason) => Reason = reason;
