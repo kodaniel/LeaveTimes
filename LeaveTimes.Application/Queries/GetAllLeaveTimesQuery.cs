@@ -48,8 +48,11 @@ public class GetAllLeaveTimesQuery
         {
             int year = request.year ?? DateTime.Now.Year;
             int month = request.month ?? DateTime.Now.Month;
+            Reason? reason = null;
+            if (Enum.TryParse(request.reason, ignoreCase: true, out Reason r))
+                reason = r;
 
-            var leaveTimes = await _repository.ListOrderedAsync(cancellationToken);
+            var leaveTimes = await _repository.FilteredListAsync(year, month, request.employeeName, reason, cancellationToken);
 
             var leaveTimeDtos = leaveTimes.Adapt<IEnumerable<LeaveTimeDto>>();
             return new ListResponse<LeaveTimeDto>(leaveTimeDtos);

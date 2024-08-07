@@ -2,5 +2,6 @@
 
 public interface ILeaveTimeRepository : IRepository<LeaveTime>
 {
-    Task<List<LeaveTime>> ListOrderedAsync(CancellationToken cancellationToken = default);
+    Task<List<LeaveTime>> FilteredListAsync(int year, int month, string? employeeName = default, Reason? reason = default, 
+        CancellationToken cancellationToken = default);
 }

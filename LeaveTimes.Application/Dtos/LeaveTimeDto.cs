@@ -12,5 +12,5 @@ public record LeaveTimeDto
 
     public Reason Reason { get; set; }
 
-    public string? Comments { get; set; }
+    public string? Comment { get; set; }
 }

@@ -11,11 +11,30 @@ internal class LeaveTimeRepository : EFRepositoryBase<LeaveTime>, ILeaveTimeRepo
     {
     }
 
-    public async Task<List<LeaveTime>> ListOrderedAsync(CancellationToken cancellationToken = default)
+    public async Task<List<LeaveTime>> FilteredListAsync(int year, int month, string? employeeName = default, Reason? reason = default,
+        CancellationToken cancellationToken = default)
     {
-        return await DbSet
-            .AsNoTracking()
-            .OrderByDescending(x => x.StartDate)
-            .ToListAsync(cancellationToken);
+        var firstDayOfMonth = new DateTime(year, month, 1);
+        var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddTicks(-1);
+
+        // Build the query
+
+        var query = DbSet.AsNoTracking();
+
+        query = query.Where(x => x.StartDate <= lastDayOfMonth && x.EndDate >= firstDayOfMonth);
+
+        if (!string.IsNullOrWhiteSpace(employeeName))
+        {
+            query = query.Where(x => x.EmployeeName.Contains(employeeName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        if (reason != null)
+        {
+            query = query.Where(x => x.Reason == reason);
+        }
+
+        query = query.OrderBy(x => x.StartDate);
+
+        return await query.ToListAsync(cancellationToken);
     }
 }
