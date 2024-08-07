@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace LeaveTimes.Infrastructure.Context;
 
-internal class CoreDbContext : DbContext, IUnitOfWork
+public class CoreDbContext : DbContext, IUnitOfWork
 {
     private IDbContextTransaction? _currentTransaction;
 

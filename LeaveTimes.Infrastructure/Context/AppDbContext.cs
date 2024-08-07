@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeaveTimes.Infrastructure.Context;
 
-internal class AppDbContext : CoreDbContext
+public class AppDbContext : CoreDbContext
 {
     #region DbSets
 

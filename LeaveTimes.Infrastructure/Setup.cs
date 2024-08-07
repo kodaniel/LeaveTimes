@@ -26,6 +26,8 @@ public static class Setup
         //app.UseAuthentication();
         //app.UseAuthorization();
         app.MapControllers();
+
+        SeedDatabase(app);
     }
 
     public static void AddInfrastructure(this WebApplicationBuilder builder)
@@ -59,5 +61,14 @@ public static class Setup
             m.UseInMemoryDatabase(databaseSettings.ConnectionString);
             //m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
         });
+    }
+
+    private static void SeedDatabase(IApplicationBuilder app)
+    {
+        using (var serviceScope = app.ApplicationServices.CreateScope())
+        {
+            var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+            SeedData.Initialize(context);
+        }
     }
 }

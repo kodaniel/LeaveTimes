@@ -33,11 +33,13 @@ internal abstract class EFRepositoryBase<TEntity> : IRepository<TEntity>
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await DbSet.AddAsync(entity, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         await DbSet.AddRangeAsync(entities, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<long> CountAsync(CancellationToken cancellationToken = default)
@@ -45,27 +47,27 @@ internal abstract class EFRepositoryBase<TEntity> : IRepository<TEntity>
         return await DbSet.CountAsync(cancellationToken);
     }
 
-    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbSet.Update(entity);
-        return Task.CompletedTask;
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public async Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         DbSet.UpdateRange(entities);
-        return Task.CompletedTask;
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         DbSet.Remove(entity);
-        return Task.CompletedTask;
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public async Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         DbSet.RemoveRange(entities);
-        return Task.CompletedTask;
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
