@@ -1,0 +1,6 @@
+@LeaveTimes.API_HostAddress = http://localhost:5183
+
+GET {{LeaveTimes.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
