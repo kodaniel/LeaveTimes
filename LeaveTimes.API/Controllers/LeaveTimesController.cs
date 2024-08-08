@@ -1,4 +1,5 @@
-﻿using LeaveTimes.Application.Commands;
+﻿using Asp.Versioning;
+using LeaveTimes.Application.Commands;
 using LeaveTimes.Application.Dtos;
 using LeaveTimes.Application.Queries;
 using LeaveTimes.Infrastructure.Middlewares;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LeaveTimes.API.Controllers;
 
-//[ApiVersion("1")]
+[ApiVersion("1.0")]
 [Route("leave-times")]
 public class LeaveTimesController : ApiControllerBase
 {
@@ -35,5 +36,19 @@ public class LeaveTimesController : ApiControllerBase
     {
         var response = await Mediator.Send(request);
         return CreatedAtAction(nameof(GetAllLeaveTimes), new { response });
+    }
+
+    /// <summary>
+    /// Edit an existing leave time.
+    /// </summary>
+    [HttpPut]
+    [ProducesResponseType(typeof(LeaveTimeDto), 200)]
+    [ProducesResponseType(typeof(ExceptionDetails), 400)]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    public async Task<IActionResult> Edit([FromQuery] Guid id, UpdateLeaveTimeDto command)
+    {
+        var response = await Mediator.Send(new UpdateLeaveTimeCommand.Request(id, command));
+        return Ok(response);
     }
 }

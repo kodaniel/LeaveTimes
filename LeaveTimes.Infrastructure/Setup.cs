@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Asp.Versioning;
 
 namespace LeaveTimes.Infrastructure;
 
@@ -58,6 +58,14 @@ public static class Setup
             cfg.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             cfg.JsonSerializerOptions.WriteIndented = true;
             cfg.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+
+        builder.Services.AddApiVersioning(config =>
+        {
+            config.DefaultApiVersion = new ApiVersion(1, 0);
+            config.AssumeDefaultVersionWhenUnspecified = true;
+            config.ReportApiVersions = true;
+            config.ApiVersionReader = new HeaderApiVersionReader("X-API-Version");
         });
 
         builder.Services.AddScoped<ExceptionMiddleware>();

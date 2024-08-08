@@ -1,4 +1,4 @@
-﻿using LeaveTimes.Application.Validation;
+﻿using LeaveTimes.Application.Exceptions;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Net;
 
@@ -13,7 +13,7 @@ public class ExceptionDetails
     public int? Status { get; set; }
     public string? StackTrace { get; set; }
 
-    internal static ExceptionDetails HandleFluentValidationException(ValidationException exception)
+    internal static ExceptionDetails HandleFluentValidationException(MyValidationException exception)
     {
         var errorResult = new ExceptionDetails()
         {
@@ -30,6 +30,17 @@ public class ExceptionDetails
         {
             errorResult.Errors.Add(error.ErrorMessage);
         }
+        return errorResult;
+    }
+
+    internal static ExceptionDetails HandleApiException(ApiException exception)
+    {
+        var errorResult = new ExceptionDetails()
+        {
+            Title = ReasonPhrases.GetReasonPhrase((int)exception.StatusCode),
+            Detail = exception.Message.Trim(),
+            Status = (int)exception.StatusCode,
+        };
         return errorResult;
     }
 

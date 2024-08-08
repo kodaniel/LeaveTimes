@@ -1,5 +1,5 @@
-﻿using LeaveTimes.Application.Services.Serializer;
-using LeaveTimes.Application.Validation;
+﻿using LeaveTimes.Application.Exceptions;
+using LeaveTimes.Application.Services.Serializer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -26,13 +26,15 @@ internal class ExceptionMiddleware : IMiddleware
         {
             var errorResult = exception switch
             {
-                ValidationException validationException => ExceptionDetails.HandleFluentValidationException(validationException),
+                MyValidationException validationException => ExceptionDetails.HandleFluentValidationException(validationException),
+                ApiException apiException => ExceptionDetails.HandleApiException(apiException),
                 _ => ExceptionDetails.HandleDefaultException(exception),
             };
 
             var errorLogLevel = exception switch
             {
-                ValidationException => LogLevel.Warning,
+                MyValidationException => LogLevel.Warning,
+                ApiException => LogLevel.Warning,
                 _ => LogLevel.Error
             };
 
