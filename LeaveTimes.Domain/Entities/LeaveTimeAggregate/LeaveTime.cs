@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace LeaveTimes.Domain.Entities;
+﻿namespace LeaveTimes.Domain.Entities;
 
 public class LeaveTime : Entity<Guid>, IAggregateRoot
 {
-    [MaxLength(100)]
     public string EmployeeName { get; private set; } = default!;
 
     public DateTime StartDate { get; private set; }
@@ -34,13 +31,14 @@ public class LeaveTime : Entity<Guid>, IAggregateRoot
     public void UpdateName(string name)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(nameof(name));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 100);
+
         EmployeeName = name;
     }
 
-    public void UpdateTimes(DateTime startDate,  DateTime endDate)
+    public void UpdateTimes(DateTime startDate, DateTime endDate)
     {
-        if (startDate > endDate)
-            throw new ArgumentException("The start date must be less than or equal to the end date.");
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(startDate, endDate, nameof(endDate));
 
         StartDate = startDate;
         EndDate = endDate;
@@ -48,6 +46,9 @@ public class LeaveTime : Entity<Guid>, IAggregateRoot
 
     public void UpdateComment(string? comment)
     {
+        if (comment is not null)
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(comment.Length, 500);
+
         Comment = comment;
     }
 
