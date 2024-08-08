@@ -25,7 +25,7 @@ public class LeaveTimesController : ApiControllerBase
     }
 
     /// <summary>
-    /// Creates a new leave time.
+    /// Add a new leave time.
     /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(LeaveTimeDto), 201)]
@@ -41,14 +41,29 @@ public class LeaveTimesController : ApiControllerBase
     /// <summary>
     /// Edit an existing leave time.
     /// </summary>
-    [HttpPut]
+    [HttpPut("{id}")]
     [ProducesResponseType(typeof(LeaveTimeDto), 200)]
     [ProducesResponseType(typeof(ExceptionDetails), 400)]
+    [ProducesResponseType(typeof(ExceptionDetails), 404)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<IActionResult> Edit([FromQuery] Guid id, UpdateLeaveTimeDto command)
+    public async Task<IActionResult> Edit(Guid id, UpdateLeaveTimeDto command)
     {
         var response = await Mediator.Send(new UpdateLeaveTimeCommand.Request(id, command));
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Delete a leave time by its ID.
+    /// </summary>
+    [HttpDelete("{id}")]
+    [ProducesResponseType(202)]
+    [ProducesResponseType(typeof(ExceptionDetails), 400)]
+    [ProducesResponseType(typeof(ExceptionDetails), 404)]
+    [Produces("application/json")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await Mediator.Send(new DeleteLeaveTime.Command(id));
+        return NoContent();
     }
 }
