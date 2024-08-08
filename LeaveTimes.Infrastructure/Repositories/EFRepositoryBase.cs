@@ -1,6 +1,5 @@
 ﻿using LeaveTimes.Domain.Interfaces;
 using LeaveTimes.Domain.Repositories;
-using LeaveTimes.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace LeaveTimes.Infrastructure.Repositories;

@@ -4,10 +4,12 @@ using Serilog;
 /*
  * Possible improvements:
  * - Specification pattern
- * - Page-based or Cursor-based pagination
+ * - Page-based or Cursor-based pagination, although only one month of leave times are queried
  * - Authentication and authorization
  * - Caching
  * - UnitOfWork pattern
+ * - HATEOAS to make FE devs' lives easier
+ * - Functional tests with Postman
  */
 
 var logger = Log.Logger = new LoggerConfiguration()
@@ -29,27 +31,8 @@ try
 
     builder.AddInfrastructure();
 
-    // Add services to the container.
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen(options =>
-    {
-        options.IncludeXmlComments(string.Format(@"{0}\LeaveTimes.API.xml", AppDomain.CurrentDomain.BaseDirectory));
-    });
-
     var app = builder.Build();
-
     app.UseInfrastructure();
-
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-
-    app.UseHttpsRedirection();
-
     app.Run();
 }
 // https://stackoverflow.com/questions/70247187/microsoft-extensions-hosting-hostfactoryresolverhostinglistenerstopthehostexce

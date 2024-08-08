@@ -1,5 +1,4 @@
 ﻿using LeaveTimes.Domain.Entities;
-using LeaveTimes.Infrastructure.Context;
 
 namespace LeaveTimes.Infrastructure.Repositories;
 

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LeaveTimes.Infrastructure;
+namespace LeaveTimes.Infrastructure.Options;
 
-internal class DatabaseSettings
+public class SqliteOptions
 {
     [Required]
     public string ConnectionString { get; set; } = default!;

@@ -2,10 +2,6 @@
 using LeaveTimes.Application.Services.Serializer;
 using LeaveTimes.Application.Validation;
 using LeaveTimes.Domain.Repositories;
-using LeaveTimes.Infrastructure.Context;
-using LeaveTimes.Infrastructure.Middlewares;
-using LeaveTimes.Infrastructure.Repositories;
-using LeaveTimes.Infrastructure.ServicesImpl;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace LeaveTimes.Infrastructure;
 
@@ -27,6 +26,16 @@ public static class Setup
         app.UseMiddleware<ExceptionMiddleware>();
         //app.UseAuthentication();
         //app.UseAuthorization();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
         app.MapControllers();
 
         SeedDatabase(app);
@@ -41,7 +50,8 @@ public static class Setup
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         TypeAdapterConfig.GlobalSettings.Scan(applicationAssembly);
 
-        builder.Services.AddPersistance();
+        builder.Services.AddSwagger();
+        builder.Services.AddPersistance(builder.Configuration);
         builder.Services.AddControllers().AddJsonOptions(cfg =>
         {
             cfg.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -54,21 +64,46 @@ public static class Setup
         builder.Services.AddSingleton<ISerializerService, JsonSerializerService>();
     }
 
-    private static void AddPersistance(this IServiceCollection services)
+    private static void AddSwagger(this IServiceCollection services)
     {
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.IncludeXmlComments(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LeaveTimes.API.xml"));
+        });
+    }
+
+    private static void AddPersistance(this IServiceCollection services, IConfiguration configuration)
+    {
+        // Register repositories
         services.AddScoped<ILeaveTimeRepository, LeaveTimeRepository>();
 
         services.AddOptions<DatabaseSettings>()
-            .BindConfiguration(nameof(DatabaseSettings))
+            .BindConfiguration("DatabaseSettings")
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
         services.AddDbContext<AppDbContext>((p, m) =>
         {
-            var databaseSettings = p.GetRequiredService<IOptions<DatabaseSettings>>().Value;
-            m.UseInMemoryDatabase(databaseSettings.ConnectionString);
-            //m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
+            m.UseDatabase(p, configuration);
         });
+    }
+
+    private static void UseDatabase(this DbContextOptionsBuilder dbContextBuilder, IServiceProvider serviceProvider, IConfiguration configuration)
+    {
+        var dbSettings = serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>();
+
+        switch (dbSettings.Value.DbProvider)
+        {
+            default:
+            case DatabaseSettings.InMemory:
+                dbContextBuilder.UseInMemoryDatabase(dbSettings.Value.InMemoryOptions!.Name);
+                break;
+            case DatabaseSettings.Sqlite:
+                // TODO: add Sqlite
+                break;
+        }
     }
 
     private static void SeedDatabase(IApplicationBuilder app)
