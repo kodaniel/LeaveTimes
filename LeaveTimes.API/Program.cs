@@ -1,17 +1,6 @@
 using LeaveTimes.Infrastructure;
 using Serilog;
 
-/*
- * Possible improvements:
- * - Specification pattern
- * - Page-based or Cursor-based pagination, although only one month of leave times are queried
- * - Authentication and authorization
- * - Caching
- * - UnitOfWork pattern
- * - HATEOAS to make FE devs' lives easier
- * - Functional tests with Postman
- */
-
 var logger = Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()

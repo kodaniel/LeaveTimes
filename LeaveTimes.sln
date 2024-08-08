@@ -3,19 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveTimes.API", "LeaveTimes.API\LeaveTimes.API.csproj", "{05ED5211-9D08-40E2-9053-737ED27AE888}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaveTimes.API", "LeaveTimes.API\LeaveTimes.API.csproj", "{05ED5211-9D08-40E2-9053-737ED27AE888}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveTimes.Domain", "LeaveTimes.Domain\LeaveTimes.Domain.csproj", "{25DB2BF7-BE6B-4514-B120-8E00BF3A7202}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaveTimes.Domain", "LeaveTimes.Domain\LeaveTimes.Domain.csproj", "{25DB2BF7-BE6B-4514-B120-8E00BF3A7202}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveTimes.Application", "LeaveTimes.Application\LeaveTimes.Application.csproj", "{509EC660-2F79-4865-A4CE-C2FDD76AB8B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaveTimes.Application", "LeaveTimes.Application\LeaveTimes.Application.csproj", "{509EC660-2F79-4865-A4CE-C2FDD76AB8B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{07EF7A8D-D4B8-4012-B4F9-8B3EDA297A51}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{16372EE0-45D1-40EE-932F-FA80C769E7B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveTimes.Infrastructure", "LeaveTimes.Infrastructure\LeaveTimes.Infrastructure.csproj", "{B3624AA1-D3AD-47F4-9E82-6090C1BDD360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaveTimes.Infrastructure", "LeaveTimes.Infrastructure\LeaveTimes.Infrastructure.csproj", "{B3624AA1-D3AD-47F4-9E82-6090C1BDD360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveTimes.UnitTests", "LeaveTimes.UnitTests\LeaveTimes.UnitTests.csproj", "{E1880F31-86C3-4D3F-97F9-6E43FC7BB9B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaveTimes.UnitTests", "LeaveTimes.UnitTests\LeaveTimes.UnitTests.csproj", "{E1880F31-86C3-4D3F-97F9-6E43FC7BB9B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F59CB6D3-4797-4606-974F-D91ECE0A568D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
