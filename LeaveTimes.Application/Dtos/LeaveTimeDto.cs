@@ -31,4 +31,9 @@ public record LeaveTimeDto
     /// Additional text
     /// </summary>
     public string? Comment { get; set; }
+
+    /// <summary>
+    /// Leave time is approved or not
+    /// </summary>
+    public bool IsApproved { get; set; }
 }
