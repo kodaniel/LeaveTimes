@@ -32,7 +32,10 @@ try
     // Add services to the container.
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.IncludeXmlComments(string.Format(@"{0}\LeaveTimes.API.xml", AppDomain.CurrentDomain.BaseDirectory));
+    });
 
     var app = builder.Build();
 
