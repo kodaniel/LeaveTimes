@@ -4,8 +4,8 @@ global using LeaveTimes.Domain.Repositories;
 
 global using LeaveTimes.Application.Validation;
 global using LeaveTimes.Application.Exceptions;
+global using LeaveTimes.Application.Mappers;
 
 global using FluentValidation;
-global using Mapster;
 global using MediatR;
-global using Newtonsoft.Json;
+global using Riok.Mapperly.Abstractions;

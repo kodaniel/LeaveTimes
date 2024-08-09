@@ -1,11 +1,13 @@
-﻿namespace LeaveTimes.Application.Features;
+﻿using System.Text.Json.Serialization;
+
+namespace LeaveTimes.Application.Features;
 
 public class ListResponse<T>
 {
-    [JsonProperty("items")]
+    [JsonPropertyName("items")]
     public IEnumerable<T> Items { get; }
 
-    [JsonProperty("count")]
+    [JsonPropertyName("count")]
     public long Count { get; }
 
     public ListResponse(IEnumerable<T> data)

@@ -14,7 +14,6 @@ public sealed class SearchLeaveTimesHandler(ILeaveTimeRepository repository) : I
 
         var leaveTimes = await _repository.FilteredListAsync(year, month, request.EmployeeName, reason, cancellationToken);
 
-        var leaveTimeDtos = leaveTimes.Adapt<IEnumerable<LeaveTimeResponse>>();
-        return new ListResponse<LeaveTimeResponse>(leaveTimeDtos);
+        return new ListResponse<LeaveTimeResponse>(leaveTimes.MapToDto());
     }
 }

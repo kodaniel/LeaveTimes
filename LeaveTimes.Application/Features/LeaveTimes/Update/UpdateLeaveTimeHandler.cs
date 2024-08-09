@@ -19,6 +19,6 @@ public sealed class UpdateLeaveTimeHandler(ILeaveTimeRepository repository) : IR
 
         await _repository.UpdateAsync(leaveTime, cancellationToken);
 
-        return leaveTime.Adapt<LeaveTimeResponse>();
+        return leaveTime.MapToDto();
     }
 }

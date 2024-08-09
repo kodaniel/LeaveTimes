@@ -13,6 +13,6 @@ public sealed class CreateLeaveTimeHandler(ILeaveTimeRepository repository) : IR
 
         await _repository.AddAsync(leaveTime, cancellationToken);
 
-        return leaveTime.Adapt<LeaveTimeResponse>();
+        return leaveTime.MapToDto();
     }
 }

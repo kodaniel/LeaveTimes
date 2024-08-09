@@ -20,10 +20,9 @@ It can be easily made by the mediator pattern. Queries are read-only requests, w
 I like to use the repository pattern to insert an additional layer between the data access layer and business logic.
 This way the business logic does not depend on any persistance technology and can be easily tested by mocking the repositories.
 
-- DTO classes
+- DTO classes and validators
 - Interfaces
 - Command & Query handlers
-- Minimal API endpoints
 - Mapping configurations
 
 ### Infrastructure
@@ -35,9 +34,13 @@ The Infrastructure project depends on e.g. ```Microsoft.EntityFrameworkCore.InMe
 - Middlewares
 - Service implementations
 - Database schema configurations
+- Minimal API endpoints
 
 ### API
 The entry point of the application. Includes the configuration file which is ```appsettings.json``` by default.
+
+- Controllers
+- AppSettings
 
 # Further Improvements
 I believe this sample project already goes well beyond the requirements, in case of expanding the functionality,

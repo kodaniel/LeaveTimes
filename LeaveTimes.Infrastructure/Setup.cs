@@ -3,7 +3,6 @@ using LeaveTimes.Application.Services.Serializer;
 using LeaveTimes.Application.Validation;
 using LeaveTimes.Domain.Repositories;
 using LeaveTimes.Infrastructure.Endpoints.v1;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -49,7 +48,6 @@ public static class Setup
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
         builder.Services.AddValidatorsFromAssembly(applicationAssembly);
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        TypeAdapterConfig.GlobalSettings.Scan(applicationAssembly);
 
         builder.Services.AddSwagger();
         builder.Services.AddPersistance(builder.Configuration);
