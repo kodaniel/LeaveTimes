@@ -3,53 +3,55 @@
 public class LeaveTime : Entity<Guid>, IAggregateRoot
 {
     public string EmployeeName { get; private set; } = default!;
-
     public DateTime StartDate { get; private set; }
-
     public DateTime EndDate { get; private set; }
-
     public Reason Reason { get; private set; } = Reason.Holiday;
-
     public string? Comment { get; private set; }
-
     public bool IsApproved { get; private set; }
 
     private LeaveTime()
     {
     }
 
-    public static LeaveTime Create(string employeeName)
+    public static LeaveTime Create(string name, Reason reason, DateTime startDate, DateTime endDate, string? comment = null)
     {
-        LeaveTime leaveTime = new();
-        leaveTime.UpdateName(employeeName);
+        var leaveTime = new LeaveTime();
+        leaveTime.Update(name, reason, startDate, endDate, comment);
+        leaveTime.IsApproved = false;
 
         return leaveTime;
     }
 
-    public void UpdateReason(Reason reason) => Reason = reason;
-
-    public void UpdateName(string name)
+    public void Update(string? name, Reason? reason, DateTime? startDate, DateTime? endDate, string? comment)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(nameof(name));
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 100);
+        if (name is not null)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(nameof(name));
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(name.Length, 100);
+            EmployeeName = name;
+        }
 
-        EmployeeName = name;
-    }
+        if (reason is not null)
+        {
+            Reason = reason.Value;
+        }
 
-    public void UpdateTimes(DateTime startDate, DateTime endDate)
-    {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(startDate, endDate, nameof(endDate));
+        if (startDate is not null || endDate is not null)
+        {
+            if (startDate is not null)
+                StartDate = startDate.Value;
 
-        StartDate = startDate;
-        EndDate = endDate;
-    }
+            if (endDate is not null)
+                EndDate = endDate.Value;
 
-    public void UpdateComment(string? comment)
-    {
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(StartDate, EndDate, nameof(startDate));
+        }
+
         if (comment is not null)
+        {
             ArgumentOutOfRangeException.ThrowIfGreaterThan(comment.Length, 500);
-
-        Comment = comment;
+            Comment = comment;
+        }
     }
 
     public void Approve()

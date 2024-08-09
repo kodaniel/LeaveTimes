@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace LeaveTimes.Application.Exceptions;
+namespace LeaveTimes.Domain.Exceptions;
 
 public class ApiException : Exception
 {

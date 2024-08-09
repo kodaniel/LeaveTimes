@@ -1,14 +1,14 @@
-﻿using LeaveTimes.Application.Queries;
+﻿using LeaveTimes.Application.Features.LeaveTimes.Search;
 using LeaveTimes.Domain.Entities;
 using LeaveTimes.Domain.Repositories;
 using Moq;
 
-namespace LeaveTimes.UnitTests.Application.Queries;
+namespace LeaveTimes.UnitTests.Application.Features;
 
 [TestFixture]
-public class GetAllLeaveTimesQuery_Handler
+public class SearchLeaveTimesHandlerTests
 {
-    private GetAllLeaveTimesQuery.Handler handler;
+    private SearchLeaveTimesHandler handler;
     private Mock<ILeaveTimeRepository> repositoryMock;
 
     [SetUp]
@@ -19,13 +19,13 @@ public class GetAllLeaveTimesQuery_Handler
         repositoryMock.Setup(x => x.FilteredListAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string?>(), It.IsAny<Reason?>(), It.IsAny<CancellationToken>()))
             .Returns<int, int, string?, Reason?, CancellationToken>((y, m, n, r, _) => Task.FromResult(GetList(y, m, n, r)));
 
-        handler = new GetAllLeaveTimesQuery.Handler(repositoryMock.Object);
+        handler = new SearchLeaveTimesHandler(repositoryMock.Object);
     }
 
     [Test]
     public async Task With_Current_Year_And_Month()
     {
-        var requestModel = new GetAllLeaveTimesQuery.Request();
+        var requestModel = new SearchLeaveTimesCommand(null, null, null, null);
         var result = await handler.Handle(requestModel, CancellationToken.None);
 
         Assert.That(result, Is.Not.Null);
@@ -35,7 +35,7 @@ public class GetAllLeaveTimesQuery_Handler
     [Test]
     public async Task With_Specific_Reason()
     {
-        var requestModel = new GetAllLeaveTimesQuery.Request { Reason = "Holiday" };
+        var requestModel = new SearchLeaveTimesCommand(null, null, null, Reason: "Holiday");
         var result = await handler.Handle(requestModel, CancellationToken.None);
 
         Assert.That(result, Is.Not.Null);
@@ -46,9 +46,9 @@ public class GetAllLeaveTimesQuery_Handler
     {
         var list = new List<LeaveTime>
         {
-            CreateModel("aaa", Reason.Holiday, new DateTime(2024, 8, 10), new DateTime(2024, 8, 10)),
-            CreateModel("bbb", Reason.HomeOffice, new DateTime(2024, 8, 29), new DateTime(2024, 9, 5)),
-            CreateModel("ccc", Reason.Holiday, new DateTime(2024, 7, 1), new DateTime(2024, 9, 30)),
+            LeaveTime.Create("aaa", Reason.Holiday, new DateTime(2024, 8, 10), new DateTime(2024, 8, 10)),
+            LeaveTime.Create("bbb", Reason.HomeOffice, new DateTime(2024, 8, 29), new DateTime(2024, 9, 5)),
+            LeaveTime.Create("ccc", Reason.Holiday, new DateTime(2024, 7, 1), new DateTime(2024, 9, 30)),
         };
 
         if (!string.IsNullOrEmpty(employeeName))
@@ -62,14 +62,5 @@ public class GetAllLeaveTimesQuery_Handler
         }
 
         return list;
-    }
-
-    private LeaveTime CreateModel(string name, Reason reason, DateTime startDate, DateTime endDate)
-    {
-        var model = LeaveTime.Create(name);
-        model.UpdateReason(reason);
-        model.UpdateTimes(startDate, endDate);
-
-        return model;
     }
 }

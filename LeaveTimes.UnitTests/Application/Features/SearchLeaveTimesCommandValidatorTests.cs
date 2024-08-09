@@ -1,23 +1,23 @@
 ﻿using FluentValidation.TestHelper;
-using LeaveTimes.Application.Queries;
+using LeaveTimes.Application.Features.LeaveTimes.Search;
 
-namespace LeaveTimes.UnitTests.Application.Queries;
+namespace LeaveTimes.UnitTests.Application.Features;
 
 [TestFixture]
-public class GetAllLeaveTimesQuery_Validator
+public class SearchLeaveTimesCommandValidatorTests
 {
-    private GetAllLeaveTimesQuery.Validator validator;
+    private SearchLeaveTimesCommandValidator validator;
 
     [SetUp]
     public void SetUp()
     {
-        validator = new GetAllLeaveTimesQuery.Validator();
+        validator = new SearchLeaveTimesCommandValidator();
     }
 
     [Test]
     public void Should_not_have_error_When_request_is_empty()
     {
-        var model = new GetAllLeaveTimesQuery.Request();
+        var model = new SearchLeaveTimesCommand(null, null, null, null);
 
         var result = validator.TestValidate(model);
 
@@ -27,7 +27,7 @@ public class GetAllLeaveTimesQuery_Validator
     [Test]
     public void Should_have_error_When_reason_is_invalid()
     {
-        var model = new GetAllLeaveTimesQuery.Request { Reason = "invalid" };
+        var model = new SearchLeaveTimesCommand(null, null, null, Reason: "invalid");
 
         var result = validator.TestValidate(model);
 
@@ -38,7 +38,7 @@ public class GetAllLeaveTimesQuery_Validator
     [Test]
     public void Should_have_error_When_year_is_small()
     {
-        var model = new GetAllLeaveTimesQuery.Request { Year = -1 };
+        var model = new SearchLeaveTimesCommand(Year: -1, null, null, null);
 
         var result = validator.TestValidate(model);
 
@@ -50,7 +50,7 @@ public class GetAllLeaveTimesQuery_Validator
     [TestCase(13)]
     public void Should_have_error_When_month_is_outside_range(int month)
     {
-        var model = new GetAllLeaveTimesQuery.Request { Month = month };
+        var model = new SearchLeaveTimesCommand(null, month, null, null);
 
         var result = validator.TestValidate(model);
 

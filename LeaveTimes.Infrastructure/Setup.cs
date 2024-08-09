@@ -2,17 +2,17 @@
 using LeaveTimes.Application.Services.Serializer;
 using LeaveTimes.Application.Validation;
 using LeaveTimes.Domain.Repositories;
+using LeaveTimes.Infrastructure.Endpoints.v1;
 using Mapster;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Text.Json.Serialization;
-using System.Text.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using Asp.Versioning;
+using Asp.Versioning.Conventions;
 
 namespace LeaveTimes.Infrastructure;
 
@@ -36,7 +36,8 @@ public static class Setup
 
         app.UseHttpsRedirection();
 
-        app.MapControllers();
+        //app.MapEndpoints(); // Minimap API, remove controllers to be able to use it
+        app.MapControllers(); // Classic Web API
 
         SeedDatabase(app);
     }
@@ -60,9 +61,17 @@ public static class Setup
             cfg.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(AllowAllOrigins, pbuilder =>
+            {
+                pbuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+            });
+        });
+
         builder.Services.AddApiVersioning(config =>
         {
-            config.DefaultApiVersion = new ApiVersion(1, 0);
+            config.DefaultApiVersion = new ApiVersion(1);
             config.AssumeDefaultVersionWhenUnspecified = true;
             config.ReportApiVersions = true;
             config.ApiVersionReader = new HeaderApiVersionReader("X-API-Version");
@@ -70,6 +79,22 @@ public static class Setup
 
         builder.Services.AddScoped<ExceptionMiddleware>();
         builder.Services.AddSingleton<ISerializerService, JsonSerializerService>();
+    }
+
+    private static void MapEndpoints(this WebApplication app)
+    {
+        var versions = app.NewApiVersionSet()
+            .HasApiVersion(1)
+            .ReportApiVersions()
+            .Build();
+
+        var leaveTimeGroup = app.MapGroup("leave-times")
+            .WithApiVersionSet(versions);
+
+        leaveTimeGroup.MapLeaveTimeSearchEndpoint();
+        leaveTimeGroup.MapLeaveTimeCreationEndpoint();
+        leaveTimeGroup.MapLeaveTimeUpdateEndpoint();
+        leaveTimeGroup.MapLeaveTimeDeleteEndpoint();
     }
 
     private static void AddSwagger(this IServiceCollection services)

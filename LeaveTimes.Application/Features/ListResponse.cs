@@ -1,4 +1,4 @@
-﻿namespace LeaveTimes.Application.Dtos;
+﻿namespace LeaveTimes.Application.Features;
 
 public class ListResponse<T>
 {

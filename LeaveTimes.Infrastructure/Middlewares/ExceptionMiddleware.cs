@@ -1,6 +1,6 @@
 ﻿using LeaveTimes.Application.Exceptions;
 using LeaveTimes.Application.Services.Serializer;
-using Microsoft.AspNetCore.Http;
+using LeaveTimes.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace LeaveTimes.Infrastructure.Middlewares;

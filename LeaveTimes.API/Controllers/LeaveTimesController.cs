@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
-using LeaveTimes.Application.Commands;
-using LeaveTimes.Application.Dtos;
-using LeaveTimes.Application.Queries;
+using LeaveTimes.Application.Features;
+using LeaveTimes.Application.Features.LeaveTimes.Create;
+using LeaveTimes.Application.Features.LeaveTimes.Delete;
+using LeaveTimes.Application.Features.LeaveTimes.Search;
+using LeaveTimes.Application.Features.LeaveTimes.Update;
 using LeaveTimes.Infrastructure.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +17,10 @@ public class LeaveTimesController : ApiControllerBase
     /// Gets all the leaves in the given month, or the current month if nothing is provided.
     /// </summary>
     [HttpGet]
-    [ProducesResponseType(typeof(ListResponse<LeaveTimeDto>), 200)]
+    [ProducesResponseType(typeof(ListResponse<LeaveTimeResponse>), 200)]
     [ProducesResponseType(typeof(ExceptionDetails), 400)]
     [Produces("application/json")]
-    public async Task<IActionResult> GetAllLeaveTimes(GetAllLeaveTimesQuery.Request request)
+    public async Task<IActionResult> SearchLeaveTimes(SearchLeaveTimesCommand request)
     {
         var response = await Mediator.Send(request);
         return Ok(response);
@@ -28,42 +30,42 @@ public class LeaveTimesController : ApiControllerBase
     /// Add a new leave time.
     /// </summary>
     [HttpPost]
-    [ProducesResponseType(typeof(LeaveTimeDto), 201)]
+    [ProducesResponseType(typeof(LeaveTimeResponse), 201)]
     [ProducesResponseType(typeof(ExceptionDetails), 400)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<IActionResult> Create(CreateLeaveTimeCommand.Request request)
+    public async Task<IActionResult> Create(CreateLeaveTimeCommand request)
     {
         var response = await Mediator.Send(request);
-        return CreatedAtAction(nameof(GetAllLeaveTimes), new { response });
+        return CreatedAtAction(nameof(SearchLeaveTimes), new { response });
     }
 
     /// <summary>
     /// Edit an existing leave time.
     /// </summary>
-    [HttpPut("{id}")]
-    [ProducesResponseType(typeof(LeaveTimeDto), 200)]
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(LeaveTimeResponse), 200)]
     [ProducesResponseType(typeof(ExceptionDetails), 400)]
     [ProducesResponseType(typeof(ExceptionDetails), 404)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<IActionResult> Edit(Guid id, UpdateLeaveTimeDto command)
+    public async Task<IActionResult> Edit(Guid id, UpdateLeaveTimeCommand.UpdateLeaveTimeCommandBody command)
     {
-        var response = await Mediator.Send(new UpdateLeaveTimeCommand.Request(id, command));
+        var response = await Mediator.Send(new UpdateLeaveTimeCommand(id, command));
         return Ok(response);
     }
 
     /// <summary>
     /// Delete a leave time by its ID.
     /// </summary>
-    [HttpDelete("{id}")]
-    [ProducesResponseType(202)]
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(204)]
     [ProducesResponseType(typeof(ExceptionDetails), 400)]
     [ProducesResponseType(typeof(ExceptionDetails), 404)]
     [Produces("application/json")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await Mediator.Send(new DeleteLeaveTime.Command(id));
+        await Mediator.Send(new DeleteLeaveTimeCommand(id));
         return NoContent();
     }
 }

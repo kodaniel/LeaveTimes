@@ -1,4 +1,5 @@
 ﻿using LeaveTimes.Application.Exceptions;
+using LeaveTimes.Domain.Exceptions;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Net;
 

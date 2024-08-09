@@ -1,5 +1,9 @@
 ﻿# ✨ Quick Start Guide
+> The code might look a little bit robust for this simple CRUD application, but it's easy to add new functionality.
+Also I wanted to try out some new stuff like Minimal API and Source Generators, because why not :D 
+Although I decided to not use Minimal API in the final product because of its limitations, I didn't remove it from the code.
 
+### Deploy
 
 # Project Structure
 ### Domain
@@ -46,6 +50,7 @@ I've written some bullet points that should be considered in a production-ready 
 - Caching
 - Healthcheck
 - HATEOAS to make FE devs' lives easier
+- Integration and Functional tests
 
 # Technologies & Libraries
 - .NET 8

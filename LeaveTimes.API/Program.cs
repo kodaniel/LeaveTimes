@@ -33,3 +33,5 @@ finally
 {
     logger.Information("Server shutting down...");
 }
+
+Console.ReadLine();
