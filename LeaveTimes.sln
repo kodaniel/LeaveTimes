@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveTimes.FunctionalTests", "LeaveTimes.FunctionalTests\LeaveTimes.FunctionalTests.csproj", "{3D5DA5C5-2FBB-4002-A549-79B22E836CCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{E1880F31-86C3-4D3F-97F9-6E43FC7BB9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1880F31-86C3-4D3F-97F9-6E43FC7BB9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1880F31-86C3-4D3F-97F9-6E43FC7BB9B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D5DA5C5-2FBB-4002-A549-79B22E836CCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D5DA5C5-2FBB-4002-A549-79B22E836CCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D5DA5C5-2FBB-4002-A549-79B22E836CCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D5DA5C5-2FBB-4002-A549-79B22E836CCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{509EC660-2F79-4865-A4CE-C2FDD76AB8B7} = {07EF7A8D-D4B8-4012-B4F9-8B3EDA297A51}
 		{B3624AA1-D3AD-47F4-9E82-6090C1BDD360} = {07EF7A8D-D4B8-4012-B4F9-8B3EDA297A51}
 		{E1880F31-86C3-4D3F-97F9-6E43FC7BB9B6} = {16372EE0-45D1-40EE-932F-FA80C769E7B1}
+		{3D5DA5C5-2FBB-4002-A549-79B22E836CCA} = {16372EE0-45D1-40EE-932F-FA80C769E7B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {713C11EF-C4B9-418B-BF95-DE148D9AF1EA}

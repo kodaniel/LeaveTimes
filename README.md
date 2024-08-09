@@ -60,7 +60,7 @@ I've written some bullet points that should be considered in a production-ready 
 - EF Core
 - Swagger
 - FluentValidation
-- Mapster
+- Mapperly
 - MediatR
 - Serilog
 - Moq

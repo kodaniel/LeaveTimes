@@ -4,7 +4,7 @@ namespace LeaveTimes.Infrastructure.Repositories;
 
 public static class SeedData
 {
-    public static void Initialize(AppDbContext dbContext)
+    public static void PopulateData(AppDbContext dbContext)
     {
         dbContext.Database.EnsureCreated();
 

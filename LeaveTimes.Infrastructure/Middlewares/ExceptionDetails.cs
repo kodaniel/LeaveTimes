@@ -10,7 +10,7 @@ public class ExceptionDetails
     public string? Title { get; set; }
     public string? Detail { get; set; }
     public Guid TraceId { get; set; } = Guid.NewGuid();
-    public List<string>? Errors { get; private set; }
+    public List<string>? Errors { get; set; }
     public int? Status { get; set; }
     public string? StackTrace { get; set; }
 

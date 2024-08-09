@@ -34,4 +34,8 @@ finally
     logger.Information("Server shutting down...");
 }
 
-Console.ReadLine();
+// Need to make this partial class to be able to reference it in the FunctionalTests project
+namespace LeaveTimes.API
+{
+    public partial class Program { }
+}

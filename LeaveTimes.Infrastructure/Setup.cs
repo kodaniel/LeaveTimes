@@ -142,6 +142,6 @@ public static class Setup
         using var serviceScope = app.ApplicationServices.CreateScope();
 
         var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-        SeedData.Initialize(context);
+        SeedData.PopulateData(context);
     }
 }
