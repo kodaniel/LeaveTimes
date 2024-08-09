@@ -19,8 +19,4 @@
     <ProjectReference Include="..\LeaveTimes.Domain\LeaveTimes.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EntityConfigs\" />
-  </ItemGroup>
-
 </Project>

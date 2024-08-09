@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeaveTimes.Infrastructure.Context;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     #region DbSets
 
@@ -11,14 +11,11 @@ public class AppDbContext : DbContext
 
     #endregion
 
-    public AppDbContext(DbContextOptions options) : base(options)
-    {
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
+        // Register every classes which implements IEntityTypeConfiguration<> in this assembly
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
 }
