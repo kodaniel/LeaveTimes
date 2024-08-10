@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿//#define MINIMAL_API // Uncomment if you want to use Minimal API
+
+using FluentValidation;
 using LeaveTimes.Application.Services.Serializer;
 using LeaveTimes.Application.Validation;
 using LeaveTimes.Domain.Repositories;
@@ -12,6 +14,7 @@ using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.OpenApi.Models;
 
 namespace LeaveTimes.Infrastructure;
 
@@ -26,17 +29,24 @@ public static class Setup
         //app.UseAuthentication();
         //app.UseAuthorization();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
         app.UseHttpsRedirection();
 
-        //app.MapEndpoints(); // Minimap API, remove controllers to be able to use it
+        // Remove the comment if you want to use Swagger only in Development environment
+        //if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.DocumentTitle = "Leave Times API Reference";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Leave Times API v1");
+            });
+        }
+
+#if MINIMAL_API
+        app.MapEndpoints(); // Minimap API
+#else
         app.MapControllers(); // Classic Web API
+#endif
     }
 
     public static void AddInfrastructure(this WebApplicationBuilder builder)

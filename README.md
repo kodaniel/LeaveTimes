@@ -18,10 +18,13 @@ Go to your working directory and open Powershell. Enter the commands below step-
 ```powershell
 git clone https://github.com/kodaniel/LeaveTimes.git
 cd LeaveTimes
-./Start.ps1 [-port $port]
+./Start.ps1 [-port $port] [-environment $environment]
 ```
 
 The web app starts on the port **5000** by default, use the *-port* parameter to change it.
+
+Open this URL to start testing (on port 5000):
+[API reference](https://localhost:5000/swagger)
 
 # Project Structure
 ### Domain

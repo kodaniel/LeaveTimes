@@ -1,7 +1,8 @@
 # Define variables
 param(
 	[string]$buildConfiguration = "Release",
-	[int]$port = 5000
+	[int]$port = 5000,
+	[string]$environment = "Production"
 )
 
 $projectFile = "LeaveTimes.API.csproj"
@@ -22,6 +23,10 @@ dotnet publish -c $buildConfiguration -o $publishPath
 # Run the application
 Write-Host "Running the application..."
 Set-Location -Path $publishPath
-dotnet LeaveTimes.API.dll --urls https://localhost:$port
+
+$env:ASPNETCORE_URLS="https://localhost:$port"
+$env:ASPNETCORE_ENVIRONMENT=$environment
+
+dotnet LeaveTimes.API.dll
 
 Write-Host "Application is running on https://localhost:$port"
