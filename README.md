@@ -9,8 +9,8 @@ Although I decided to not use Minimal API in the final product because of its li
 
 I used in-memory database to store the leave times, although it's very easy to add any kind of SQL databases (which has an EF Core extension).
 
-If you prefer *Postman* over *SwaggerUI*, I attached a postman collection to the repo. Feel free to us it:
-`LeaveTimes API Reference.postman_collection.json`
+If you prefer *Postman* over *SwaggerUI*, I attached a postman collection to the repo. Feel free to import and us it:
+[Postman collection](LeaveTimes-API-Reference.postman_collection.json)
 
 ## Deploy
 Go to your working directory and open Powershell. Enter the commands below step-by-step:
@@ -24,7 +24,17 @@ cd LeaveTimes
 The web app starts on the port **5000** by default, use the *-port* parameter to change it.
 
 Open this URL to start testing (on port 5000):
-[API reference](https://localhost:5000/swagger)
+[https://localhost:5000/swagger](https://localhost:5000/swagger)
+
+### Docker
+Go to the root folder and open CMD or Powershell. Build the docker image and start a new container:
+
+```powershell
+docker build -t leave-times .
+docker run --name LeaveTimesAPI -d -p 5000:8080 leave-times
+```
+
+Then you can access the API via [http://localhost:5000](http://localhost:5000).
 
 # Project Structure
 ### Domain
