@@ -44,6 +44,10 @@ public static class Setup
         var applicationAssembly = typeof(Application.Application).Assembly;
         var services = builder.Services;
 
+        builder.Configuration.AddEnvironmentVariables()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{builder.Environment}.json", true, true);
+
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
         services.AddValidatorsFromAssembly(applicationAssembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

@@ -1,3 +1,5 @@
+name: WebAPI CI pipeline
+
 on:
   push:
     branches: ["master"]

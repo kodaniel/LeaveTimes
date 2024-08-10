@@ -1,4 +1,6 @@
-﻿# ✨ Quick Start Guide
+﻿[![.github/workflows/webapi-ci.yml](https://github.com/kodaniel/LeaveTimes/actions/workflows/webapi-ci.yml/badge.svg?branch=master)](https://github.com/kodaniel/LeaveTimes/actions/workflows/webapi-ci.yml)
+
+# ✨ Quick Start Guide
 > The code might look a little bit robust for this simple CRUD application, but it's easy to add new functionality.
 Also I wanted to try out some new stuff like Minimal API and Source Generators, because why not :D 
 Although I decided to not use Minimal API in the final product because of its limitations, I didn't remove it from the code.
@@ -11,7 +13,15 @@ If you prefer *Postman* over *SwaggerUI*, I attached a postman collection to the
 `LeaveTimes API Reference.postman_collection.json`
 
 ## Deploy
+Go to your working directory and open Powershell. Enter the commands below step-by-step:
 
+```powershell
+git clone https://github.com/kodaniel/LeaveTimes.git
+cd LeaveTimes
+./Start.ps1 [-port $port]
+```
+
+The web app starts on the port **5000** by default, use the *-port* parameter to change it.
 
 # Project Structure
 ### Domain
