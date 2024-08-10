@@ -5,9 +5,9 @@ namespace LeaveTimes.Application.Features.LeaveTimes.Update;
 public sealed record UpdateLeaveTimeCommand : IRequest<LeaveTimeResponse>
 {
     public sealed record UpdateLeaveTimeCommandBody(
-        string EmployeeName,
-        DateTime StartDate,
-        DateTime EndDate,
+        string? EmployeeName,
+        string? StartDate,
+        string? EndDate,
         string? Reason,
         string? Comment);
 

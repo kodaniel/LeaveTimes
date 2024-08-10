@@ -8,8 +8,11 @@ public sealed class CreateLeaveTimeHandler(ILeaveTimeRepository repository) : IR
 
     public async Task<LeaveTimeResponse> Handle(CreateLeaveTimeCommand request, CancellationToken cancellationToken)
     {
-        var reason = Enum.Parse<Reason>(request.Reason!, true);
-        var leaveTime = LeaveTime.Create(request.EmployeeName!, reason, request.StartDate!.Value, request.EndDate!.Value, request.Comment);
+        var reason = Enum.Parse<Reason>(request.Reason!);
+        var startDate = DateTime.Parse(request.StartDate!);
+        var endDate = DateTime.Parse(request.EndDate!);
+
+        var leaveTime = LeaveTime.Create(request.EmployeeName!, reason, startDate, endDate, request.Comment);
 
         await _repository.AddAsync(leaveTime, cancellationToken);
 

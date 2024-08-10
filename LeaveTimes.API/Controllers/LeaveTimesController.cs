@@ -34,10 +34,10 @@ public class LeaveTimesController : ApiControllerBase
     [ProducesResponseType(typeof(ExceptionDetails), 400)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<IActionResult> Create(CreateLeaveTimeCommand request)
+    public async Task<IActionResult> Create([FromBody] CreateLeaveTimeCommand request)
     {
         var response = await Mediator.Send(request);
-        return CreatedAtAction(nameof(SearchLeaveTimes), new { response });
+        return CreatedAtAction(nameof(SearchLeaveTimes), response);
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class LeaveTimesController : ApiControllerBase
     [ProducesResponseType(typeof(ExceptionDetails), 404)]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<IActionResult> Edit(Guid id, UpdateLeaveTimeCommand.UpdateLeaveTimeCommandBody command)
+    public async Task<IActionResult> Edit(Guid id, [FromBody] UpdateLeaveTimeCommand.UpdateLeaveTimeCommandBody command)
     {
         var response = await Mediator.Send(new UpdateLeaveTimeCommand(id, command));
         return Ok(response);

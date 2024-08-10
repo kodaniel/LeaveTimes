@@ -1,10 +1,15 @@
-﻿namespace LeaveTimes.Application.Features.LeaveTimes.Update;
+﻿using LeaveTimes.Application.Validation.Validators;
+
+namespace LeaveTimes.Application.Features.LeaveTimes.Update;
 
 public sealed class UpdateLeaveTimeCommandValidator : MyValidator<UpdateLeaveTimeCommand>
 {
     public UpdateLeaveTimeCommandValidator()
     {
         var supportedReasons = string.Join(", ", Enum.GetValues<Reason>().Select(r => $"'{r}'"));
+
+        RuleFor(x => x.Id)
+            .NotEmpty();
 
         RuleFor(x => x.Item.EmployeeName)
             .NotEmpty()
@@ -15,18 +20,26 @@ public sealed class UpdateLeaveTimeCommandValidator : MyValidator<UpdateLeaveTim
         RuleFor(x => x.Item.Reason)
             .NotEmpty()
                 .WithMessage("The reason can not be null.")
-            .IsEnumName(typeof(Reason), caseSensitive: false)
+            .IsEnumName(typeof(Reason))
                 .WithMessage($"Reason must be one of the following: {supportedReasons}.");
 
         RuleFor(x => x.Item.StartDate)
             .NotNull()
                 .WithMessage("The start date can not be null.")
-            .LessThanOrEqualTo(x => x.Item.EndDate)
-                .WithMessage("The start date must be less than or equal to the end date.");
+            .IsValidDateTime();
 
         RuleFor(x => x.Item.EndDate)
             .NotNull()
-                .WithMessage("The end date can not be null.");
+                .WithMessage("The end date can not be null.")
+            .IsValidDateTime();
+
+        RuleFor(x => new { x.Item.StartDate, x.Item.EndDate })
+            .Must(x =>
+            {
+                if (DateTime.TryParse(x.StartDate, out var startDate) && DateTime.TryParse(x.EndDate, out var endDate))
+                    return startDate <= endDate;
+                return false;
+            }).WithMessage("The start date must be less than or equal to the end date.");
 
         RuleFor(x => x.Item.Comment)
             .MaximumLength(500)

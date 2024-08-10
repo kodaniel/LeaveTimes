@@ -7,7 +7,7 @@ public sealed class SearchLeaveTimesCommandValidator : MyValidator<SearchLeaveTi
         var supportedReasons = string.Join(", ", Enum.GetValues<Reason>().Select(r => $"'{r}'"));
 
         RuleFor(x => x.Reason)
-            .IsEnumName(typeof(Reason), caseSensitive: false)
+            .IsEnumName(typeof(Reason))
             .When(x => !string.IsNullOrEmpty(x.Reason))
             .WithMessage($"Reason must be one of the following: {supportedReasons}.");
 

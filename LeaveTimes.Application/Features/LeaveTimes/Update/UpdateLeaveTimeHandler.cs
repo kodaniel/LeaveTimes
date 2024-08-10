@@ -13,9 +13,11 @@ public sealed class UpdateLeaveTimeHandler(ILeaveTimeRepository repository) : IR
         if (leaveTime == null)
             throw new LeaveTimeNotFoundException(request.Id);
 
-        var reason = Enum.Parse<Reason>(request.Item.Reason!, true);
+        var reason = Enum.Parse<Reason>(request.Item.Reason!);
+        var startDate = DateTime.Parse(request.Item.StartDate!);
+        var endDate = DateTime.Parse(request.Item.EndDate!);
 
-        leaveTime.Update(request.Item.EmployeeName, reason, request.Item.StartDate, request.Item.EndDate, request.Item.Comment);
+        leaveTime.Update(request.Item.EmployeeName, reason, startDate, endDate, request.Item.Comment);
 
         await _repository.UpdateAsync(leaveTime, cancellationToken);
 

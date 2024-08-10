@@ -9,7 +9,7 @@ public sealed class SearchLeaveTimesHandler(ILeaveTimeRepository repository) : I
         int year = request.Year ?? DateTime.Now.Year;
         int month = request.Month ?? DateTime.Now.Month;
         Reason? reason = null;
-        if (Enum.TryParse(request.Reason, ignoreCase: true, out Reason r))
+        if (Enum.TryParse(request.Reason, out Reason r))
             reason = r;
 
         var leaveTimes = await _repository.FilteredListAsync(year, month, request.EmployeeName, reason, cancellationToken);

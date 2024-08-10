@@ -4,7 +4,7 @@ namespace LeaveTimes.Application.Features.LeaveTimes.Create;
 
 public sealed record CreateLeaveTimeCommand(
     string? EmployeeName, 
-    DateTime? StartDate, 
-    DateTime? EndDate, 
+    string? StartDate, 
+    string? EndDate, 
     string? Reason, 
     string? Comment) : IRequest<LeaveTimeResponse>;

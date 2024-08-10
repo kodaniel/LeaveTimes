@@ -1,4 +1,6 @@
-﻿namespace LeaveTimes.Application.Features.LeaveTimes.Create;
+﻿using LeaveTimes.Application.Validation.Validators;
+
+namespace LeaveTimes.Application.Features.LeaveTimes.Create;
 
 public sealed class CreateLeaveTimeCommandValidator : MyValidator<CreateLeaveTimeCommand>
 {
@@ -15,18 +17,26 @@ public sealed class CreateLeaveTimeCommandValidator : MyValidator<CreateLeaveTim
         RuleFor(x => x.Reason)
             .NotEmpty()
                 .WithMessage("The reason can not be null.")
-            .IsEnumName(typeof(Reason), caseSensitive: false)
+            .IsEnumName(typeof(Reason))
                 .WithMessage($"Reason must be one of the following: {supportedReasons}.");
 
         RuleFor(x => x.StartDate)
             .NotNull()
                 .WithMessage("The start date can not be null.")
-            .LessThanOrEqualTo(x => x.EndDate)
-                .WithMessage("The start date must be less than or equal to the end date.");
+            .IsValidDateTime();
 
         RuleFor(x => x.EndDate)
             .NotNull()
-                .WithMessage("The end date can not be null.");
+                .WithMessage("The end date can not be null.")
+            .IsValidDateTime();
+
+        RuleFor(x => new { x.StartDate, x.EndDate })
+            .Must(x =>
+            {
+                if (DateTime.TryParse(x.StartDate, out var startDate) && DateTime.TryParse(x.EndDate, out var endDate))
+                    return startDate <= endDate;
+                return false;
+            }).WithMessage("The start date must be less than or equal to the end date.");
 
         RuleFor(x => x.Comment)
             .MaximumLength(500)
