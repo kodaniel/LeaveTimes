@@ -8,10 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
-using System.Text.Json.Serialization;
-using System.Text.Json;
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace LeaveTimes.Infrastructure;
 
@@ -37,21 +37,20 @@ public static class Setup
 
         //app.MapEndpoints(); // Minimap API, remove controllers to be able to use it
         app.MapControllers(); // Classic Web API
-
-        SeedDatabase(app);
     }
 
     public static void AddInfrastructure(this WebApplicationBuilder builder)
     {
         var applicationAssembly = typeof(Application.Application).Assembly;
+        var services = builder.Services;
 
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
-        builder.Services.AddValidatorsFromAssembly(applicationAssembly);
-        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
+        services.AddValidatorsFromAssembly(applicationAssembly);
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-        builder.Services.AddSwagger();
-        builder.Services.AddPersistance(builder.Configuration);
-        builder.Services.AddControllers().AddJsonOptions(cfg =>
+        services.AddSwagger();
+        services.AddPersistance(builder.Configuration);
+        services.AddControllers().AddJsonOptions(cfg =>
         {
             cfg.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             cfg.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -59,15 +58,17 @@ public static class Setup
             cfg.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
 
-        builder.Services.AddCors(options =>
+        services.AddCors(options =>
         {
             options.AddPolicy(AllowAllOrigins, pbuilder =>
-            {
-                pbuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-            });
+                pbuilder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+            );
         });
 
-        builder.Services.AddApiVersioning(config =>
+        services.AddApiVersioning(config =>
         {
             config.DefaultApiVersion = new ApiVersion(1);
             config.AssumeDefaultVersionWhenUnspecified = true;
@@ -75,10 +76,13 @@ public static class Setup
             config.ApiVersionReader = new HeaderApiVersionReader("X-API-Version");
         });
 
-        builder.Services.AddScoped<ExceptionMiddleware>();
-        builder.Services.AddSingleton<ISerializerService, JsonSerializerService>();
+        services.AddScoped<ExceptionMiddleware>();
+        services.AddSingleton<ISerializerService, JsonSerializerService>();
     }
 
+    /// <summary>
+    /// Minimal API settings.
+    /// </summary>
     private static void MapEndpoints(this WebApplication app)
     {
         var versions = app.NewApiVersionSet()
@@ -95,6 +99,9 @@ public static class Setup
         leaveTimeGroup.MapLeaveTimeDeleteEndpoint();
     }
 
+    /// <summary>
+    /// Configure OpenAPI with Swagger.
+    /// </summary>
     private static void AddSwagger(this IServiceCollection services)
     {
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -105,6 +112,9 @@ public static class Setup
         });
     }
 
+    /// <summary>
+    /// Configure persistance.
+    /// </summary>
     private static void AddPersistance(this IServiceCollection services, IConfiguration configuration)
     {
         // Register repositories
@@ -137,7 +147,10 @@ public static class Setup
         }
     }
 
-    private static void SeedDatabase(IApplicationBuilder app)
+    /// <summary>
+    /// Populate the empty database with some data.
+    /// </summary>
+    public static void SeedDatabase(this IApplicationBuilder app)
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
 

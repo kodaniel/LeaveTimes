@@ -1,0 +1,468 @@
+{
+	"info": {
+		"_postman_id": "96e96566-3f8a-420d-8022-e7d2b8495440",
+		"name": "LeaveTimes API Reference",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10805557"
+	},
+	"item": [
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Get the current year and month",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseData = pm.response.json();\r",
+									"const firstItem = responseData.items[0];\r",
+									"\r",
+									"if (firstItem) {\r",
+									"    pm.collectionVariables.set(\"validId\", firstItem.id);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseuri}}/leave-times",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Specific reason",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseuri}}/leave-times?reason=Holiday",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							],
+							"query": [
+								{
+									"key": "reason",
+									"value": "Holiday"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Employee name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseuri}}/leave-times?employeeName=da",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							],
+							"query": [
+								{
+									"key": "employeeName",
+									"value": "da"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Specific year and month",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseuri}}/leave-times?year=2024&month=7",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2024"
+								},
+								{
+									"key": "month",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid year or month",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseuri}}/leave-times?year=1000&month=13",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "1000"
+								},
+								{
+									"key": "month",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create",
+			"item": [
+				{
+					"name": "Create new leave time",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"{{$randomFullName}}\",\r\n    \"startDate\": \"2024.08.09\",\r\n    \"endDate\": \"2024.8.10\",\r\n    \"reason\": \"HomeOffice\",\r\n    \"comment\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create with ISO timezones",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"{{$randomFullName}}\",\r\n    \"startDate\": \"2024-08-15T10:00:00+02:00\",\r\n    \"endDate\": \"2024-08-15T09:00:00+01:00\",\r\n    \"reason\": \"homeoffice\",\r\n    \"comment\": \"{{$randomLoremSentences}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty fields",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validation errors",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"{{$randomFullName}}\",\r\n    \"startDate\": \"2024.08.09\",\r\n    \"endDate\": \"2024.8.10\",\r\n    \"reason\": \"homeoffice\",\r\n    \"comment\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End date is before start date",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"{{$randomFullName}}\",\r\n    \"startDate\": \"2024.8.9\",\r\n    \"endDate\": \"2024.8.8\",\r\n    \"reason\": \"Holiday\",\r\n    \"comment\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update",
+			"item": [
+				{
+					"name": "Update leave time",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"{{$randomFullName}}\",\r\n    \"startDate\": \"2024.08.09\",\r\n    \"endDate\": \"2024.8.10\",\r\n    \"reason\": \"Holiday\",\r\n    \"comment\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times/518d4a50-8d5a-4473-9d68-758365dc35bc",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times",
+								"518d4a50-8d5a-4473-9d68-758365dc35bc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Empty id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"{{$randomFullName}}\",\r\n    \"startDate\": \"2024.08.09\",\r\n    \"endDate\": \"2024.8.10\",\r\n    \"reason\": \"Holiday\",\r\n    \"comment\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Id does not exist",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"{{$randomFullName}}\",\r\n    \"startDate\": \"2024.08.09\",\r\n    \"endDate\": \"2024.8.10\",\r\n    \"reason\": \"Holiday\",\r\n    \"comment\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times/518d4a50-8d5a-4473-9d68-758365dc35bd",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times",
+								"518d4a50-8d5a-4473-9d68-758365dc35bd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validation errors",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeName\": \"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789a\",\r\n    \"startDate\": \"aaa\",\r\n    \"endDate\": \"bbb\",\r\n    \"reason\": \"nothing\",\r\n    \"comment\": \"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseuri}}/leave-times/{{validId}}",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times",
+								"{{validId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Run a GET request first to set a valid value for ID."
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "Remove existing leave time",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseuri}}/leave-times/{{validId}}",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times",
+								"{{validId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Id does not exist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseuri}}/leave-times/518d4a50-8d5a-4473-9d68-758365dc35bd",
+							"host": [
+								"{{baseuri}}"
+							],
+							"path": [
+								"leave-times",
+								"518d4a50-8d5a-4473-9d68-758365dc35bd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "validId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

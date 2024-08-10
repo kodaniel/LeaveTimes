@@ -3,7 +3,15 @@
 Also I wanted to try out some new stuff like Minimal API and Source Generators, because why not :D 
 Although I decided to not use Minimal API in the final product because of its limitations, I didn't remove it from the code.
 
-### Deploy
+[See requirements](Requirements.md)
+
+I used in-memory database to store the leave times, although it's very easy to add any kind of SQL databases (which has an EF Core extension).
+
+If you prefer *Postman* over *SwaggerUI*, I attached a postman collection to the repo. Feel free to us it:
+`LeaveTimes API Reference.postman_collection.json`
+
+## Deploy
+
 
 # Project Structure
 ### Domain
@@ -53,7 +61,6 @@ I've written some bullet points that should be considered in a production-ready 
 - Caching
 - Healthcheck
 - HATEOAS to make FE devs' lives easier
-- Integration and Functional tests
 
 # Technologies & Libraries
 - .NET 8

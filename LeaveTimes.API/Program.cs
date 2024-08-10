@@ -22,6 +22,7 @@ try
 
     var app = builder.Build();
     app.UseInfrastructure();
+    app.SeedDatabase();
     app.Run();
 }
 // https://stackoverflow.com/questions/70247187/microsoft-extensions-hosting-hostfactoryresolverhostinglistenerstopthehostexce
@@ -34,7 +35,8 @@ finally
     logger.Information("Server shutting down...");
 }
 
-// Need to make this partial class to be able to reference it in the FunctionalTests project
+// Need to make this partial class to be able to reference it in the LeaveTimes.FunctionalTests project.
+// It's required only in case of Top-level statements.
 namespace LeaveTimes.API
 {
     public partial class Program { }
