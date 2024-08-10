@@ -27,7 +27,7 @@ Add a new leave time.
 - ✅ The comment must be no longer than 500 characters.
 
 ## PUT /leave-times/\{id\}
-Edit an existing leave time. {id}
+Edit an existing leave time.
 
 ### Request body parameters:
 - ✅ employeeName (string, max 100 characters): The name of the employee.

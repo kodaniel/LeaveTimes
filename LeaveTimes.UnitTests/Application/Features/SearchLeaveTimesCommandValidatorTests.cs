@@ -27,7 +27,7 @@ public class SearchLeaveTimesCommandValidatorTests
     [Test]
     public void Should_not_have_error_When_request_is_valid()
     {
-        var model = new SearchLeaveTimesCommand(2024, 8, "Jon Doe", "holiday");
+        var model = new SearchLeaveTimesCommand(2024, 8, "Jon Doe", "Holiday");
 
         var result = validator.TestValidate(model);
 

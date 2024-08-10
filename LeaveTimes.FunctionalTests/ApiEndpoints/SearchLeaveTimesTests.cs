@@ -33,7 +33,7 @@ public class SearchLeaveTimesTests : ApiFunctionalTests
     [Test]
     public async Task Should_Return_Filtered_When_Set()
     {
-        var inputUrl = "/leave-times?year=2024&month=8&reason=holiday";
+        var inputUrl = "/leave-times?year=2024&month=8&reason=Holiday";
 
         var result = await _client.GetAsync(inputUrl);
         var content = await result.Content.ReadFromJsonAsync<ListResponse<LeaveTimeResponse>>(_options);
