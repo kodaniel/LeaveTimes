@@ -13,6 +13,9 @@ If you prefer *Postman* over *SwaggerUI*, I attached a postman collection to the
 [Postman collection](LeaveTimes-API-Reference.postman_collection.json)
 
 ## Deploy
+Download pre-built releases from [here](https://github.com/kodaniel/LeaveTimes/releases). Unzip and run *LeaveTimes.API.exe*.
+
+### Build and run locally
 Go to your working directory and open Powershell. Enter the commands below step-by-step:
 
 ```powershell
