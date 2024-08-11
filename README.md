@@ -24,7 +24,7 @@ cd LeaveTimes
 The web app starts on the port **5000** by default, use the *-port* parameter to change it.
 
 Open this URL to start testing (on port 5000):
-[https://localhost:5000/swagger](https://localhost:5000/swagger)
+[http://localhost:5000/swagger](http://localhost:5000/swagger)
 
 ### Docker
 Go to the root folder and open CMD or Powershell. Build the docker image and start a new container:

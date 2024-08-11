@@ -24,9 +24,9 @@ dotnet publish -c $buildConfiguration -o $publishPath
 Write-Host "Running the application..."
 Set-Location -Path $publishPath
 
-$env:ASPNETCORE_URLS="https://localhost:$port"
+$env:ASPNETCORE_URLS="http://localhost:$port"
 $env:ASPNETCORE_ENVIRONMENT=$environment
 
 dotnet LeaveTimes.API.dll
 
-Write-Host "Application is running on https://localhost:$port"
+Write-Host "Application is running on http://localhost:$port"
