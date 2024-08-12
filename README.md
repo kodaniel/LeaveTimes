@@ -15,6 +15,14 @@ If you prefer *Postman* over *SwaggerUI*, I attached a postman collection to the
 ## Deploy
 Download pre-built releases from [here](https://github.com/kodaniel/LeaveTimes/releases). Unzip and run *LeaveTimes.API.exe*.
 
+Open this URL to start testing (on port 5000):
+[http://localhost:5000/swagger](http://localhost:5000/swagger)
+
+The application starts on port **5000** by default. It might be already in use, this case it's possible to change it in appsettings.json by adding this line:
+```json
+"Urls": "http://localhost:5001"
+```
+
 ### Build and run locally
 Go to your working directory and open Powershell. Enter the commands below step-by-step:
 
@@ -25,9 +33,6 @@ cd LeaveTimes
 ```
 
 The web app starts on the port **5000** by default, use the *-port* parameter to change it.
-
-Open this URL to start testing (on port 5000):
-[http://localhost:5000/swagger](http://localhost:5000/swagger)
 
 ### Docker
 Go to the root folder and open CMD or Powershell. Build the docker image and start a new container:
